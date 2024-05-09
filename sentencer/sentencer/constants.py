@@ -1,2 +1,2 @@
 SUPPORTED_LANGUAGES = ('en', 'de')
-TOKENIZERS = ('naive', 'nltk')
+TOKENIZERS = ('naive', 'nltk', 'spacy')

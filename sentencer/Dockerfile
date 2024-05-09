@@ -5,7 +5,7 @@ WORKDIR /app
 ENV POETRY_HOME=/opt/poetry
 ENV PATH=${POETRY_HOME}/bin:${PATH}
 
-RUN apk add curl gcc linux-headers make \
+RUN apk add curl gcc python3-dev musl-dev linux-headers make g++ \
     && curl -sSL https://install.python-poetry.org | python3 - \
     && poetry config virtualenvs.create false
 
