@@ -5,6 +5,7 @@ install_project:
 	poetry install --only-root
 
 post_install:
+	python -c "import nltk; nltk.download('punkt')"
 
 full_install: install_deps_only install_project post_install
 
