@@ -1,6 +1,9 @@
 install_deps_only:
 	poetry install -qn --only main --no-root
 
+install_deps_full:
+	poetry install -qn --with dev --no-root
+
 install_project:
 	poetry install --only-root
 
@@ -15,4 +18,4 @@ install_spacy:
 
 full_install: install_deps_only install_project post_install
 
-.PHONY: install_deps_only install_project post_install full_install
+.PHONY: install_deps_only install_deps_full install_project post_install full_install

@@ -14,10 +14,15 @@ spacy = "^3.7.4"
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^4.1.8"
 pdbpp = "^0.10.3"
+pytest = "^8.2.1"
 
 [build-system]
 requires = ["poetry-core"]
 nuild-backend = "poetry.core.masonry.api"
+
+[tool.black]
+safe = true
+skip-string-normalization = true
 
 [tool.poetry.scripts]
 sentencer = "sentencer.cli.main:cli"

@@ -11,9 +11,16 @@ RUN apk add curl gcc python3-dev musl-dev linux-headers make g++ \
 
 COPY pyproject.toml poetry.lock Makefile /app/
 
-RUN make install_deps_only
+ARG DEBUG=""
 
-COPY . /app/
+RUN if [ -z "${DEBUG}" ]; then \
+    make install_deps_only \
+    ; else \
+    make install_deps_full \
+    ; fi
+
+COPY sentencer ./sentencer
+COPY README.md .
 
 RUN make install_project && make post_install
 
