@@ -1,0 +1,46 @@
+---
+services:
+  zi-opensearch-node:
+    image: opensearchproject/opensearch:latest
+    container_name: zi-opensearch-node
+    environment:
+      - cluster.name=zi-opensearch-cluster
+      - node.name=zi-opensearch-node
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true  # along with the memlock settings below, disables swapping
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m  # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_INITIAL_ADMIN_PASSWORD}    # Sets the demo admin user password when using demo configuration, required for OpenSearch 2.12 and higher
+      - plugins.security.disabled=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536  # maximum number of open files for the OpenSearch user, set to at least 65536 on modern systems
+        hard: 65536
+    volumes:
+      - zi-opensearch-data:/usr/share/opensearch/data
+    ports:
+      - 19200:9200
+      - 19600:9600  # required for Performance Analyzer
+    networks:
+      - zi-net
+  # searcher service
+  zi-searcher:
+    image: zi-searcher:latest
+    container_name: zi-searcher
+    environment:
+      - SERVER_URL=0.0.0.0:8080
+      - OPENSEARCH_URL=http://zi-opensearch-node:9200
+    depends_on:
+      - zi-opensearch-node
+    ports:
+      - 8080:8080
+    networks:
+      - zi-net
+
+volumes:
+  zi-opensearch-data:
+
+networks:
+  zi-net:
