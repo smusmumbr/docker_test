@@ -9,7 +9,7 @@ RUN apk add curl gcc python3-dev musl-dev linux-headers make g++ \
     && curl -sSL https://install.python-poetry.org | python3 - \
     && poetry config virtualenvs.create false
 
-COPY pyproject.toml poetry.lock Makefile /app/
+COPY pyproject.toml poetry.lock Makefile ./
 
 ARG DEBUG=""
 
@@ -20,7 +20,7 @@ RUN if [ -z "${DEBUG}" ]; then \
     ; fi
 
 COPY sentencer ./sentencer
-COPY README.md .
+COPY README.md tests/ ./
 
 RUN make install_project && make post_install
 
